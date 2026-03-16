@@ -18,3 +18,9 @@ class SalaryBreakdown(BaseModel):
     gross_salary: float
     deductions: float
     net_salary: float
+
+
+class CountrySalaryMetrics(BaseModel):
+    min_salary: float
+    max_salary: float
+    average_salary: float

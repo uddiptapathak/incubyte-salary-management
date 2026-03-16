@@ -29,6 +29,16 @@ def delete(db: Session, employee_id: int) -> bool:
     return True
 
 
+def get_salary_stats_by_country(db: Session, country: str) -> dict:
+    from sqlalchemy import func
+    result = db.query(
+        func.min(Employee.salary),
+        func.max(Employee.salary),
+        func.avg(Employee.salary),
+    ).filter(Employee.country == country).one()
+    return {"min_salary": result[0], "max_salary": result[1], "average_salary": result[2]}
+
+
 def update(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee | None:
     employee = get_by_id(db, employee_id)
     if not employee:
