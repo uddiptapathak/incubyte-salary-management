@@ -21,5 +21,5 @@ def delete_employee(db: Session, employee_id: int) -> bool:
     return employee_repo.delete(db, employee_id)
 
 
-def update_employee(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee:
+def update_employee(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee | None:
     return employee_repo.update(db, employee_id, payload)

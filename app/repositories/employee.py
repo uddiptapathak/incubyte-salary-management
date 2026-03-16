@@ -21,7 +21,7 @@ def get_all(db: Session) -> list[Employee]:
 
 
 def delete(db: Session, employee_id: int) -> bool:
-    employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    employee = get_by_id(db, employee_id)
     if not employee:
         return False
     db.delete(employee)
@@ -30,7 +30,7 @@ def delete(db: Session, employee_id: int) -> bool:
 
 
 def update(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee | None:
-    employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    employee = get_by_id(db, employee_id)
     if not employee:
         return None
     for key, value in payload.model_dump().items():
