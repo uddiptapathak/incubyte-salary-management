@@ -108,3 +108,21 @@ async def test_update_nonexistent_employee_returns_404(client):
     response = await client.put("/employees/9999", json=payload)
 
     assert response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_delete_employee_returns_204(client):
+    payload = {
+        "full_name": "John Doe",
+        "job_title": "Software Engineer",
+        "country": "India",
+        "salary": 50000.0,
+    }
+    create_response = await client.post("/employees", json=payload)
+    employee_id = create_response.json()["id"]
+
+    delete_response = await client.delete(f"/employees/{employee_id}")
+    assert delete_response.status_code == 204
+
+    get_response = await client.get(f"/employees/{employee_id}")
+    assert get_response.status_code == 404
