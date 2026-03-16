@@ -20,8 +20,10 @@ def get_all(db: Session) -> list[Employee]:
     return db.query(Employee).all()
 
 
-def update(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee:
+def update(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee | None:
     employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    if not employee:
+        return None
     for key, value in payload.model_dump().items():
         setattr(employee, key, value)
     db.commit()
