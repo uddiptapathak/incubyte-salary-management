@@ -126,3 +126,10 @@ async def test_delete_employee_returns_204(client):
 
     get_response = await client.get(f"/employees/{employee_id}")
     assert get_response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_delete_nonexistent_employee_returns_404(client):
+    response = await client.delete("/employees/9999")
+
+    assert response.status_code == 404
