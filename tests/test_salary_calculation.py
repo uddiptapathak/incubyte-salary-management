@@ -39,3 +39,23 @@ async def test_salary_calculation_us_12_percent_tds(client):
     assert data["gross_salary"] == 80000.0
     assert data["deductions"] == 9600.0
     assert data["net_salary"] == 70400.0
+
+
+@pytest.mark.asyncio
+async def test_salary_calculation_other_country_no_deductions(client):
+    payload = {
+        "full_name": "Hans Müller",
+        "job_title": "Engineer",
+        "country": "Germany",
+        "salary": 70000.0,
+    }
+    create_response = await client.post("/employees", json=payload)
+    employee_id = create_response.json()["id"]
+
+    response = await client.get(f"/employees/{employee_id}/salary")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["gross_salary"] == 70000.0
+    assert data["deductions"] == 0.0
+    assert data["net_salary"] == 70000.0
