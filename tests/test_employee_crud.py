@@ -95,3 +95,16 @@ async def test_update_employee_returns_200_with_updated_data(client):
     assert data["full_name"] == payload["full_name"]
     assert data["job_title"] == payload["job_title"]
     assert data["country"] == payload["country"]
+
+
+@pytest.mark.asyncio
+async def test_update_nonexistent_employee_returns_404(client):
+    payload = {
+        "full_name": "Ghost User",
+        "job_title": "Engineer",
+        "country": "India",
+        "salary": 50000.0,
+    }
+    response = await client.put("/employees/9999", json=payload)
+
+    assert response.status_code == 404
