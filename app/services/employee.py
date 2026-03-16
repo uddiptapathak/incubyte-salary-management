@@ -15,3 +15,7 @@ def get_employee(db: Session, employee_id: int) -> Employee | None:
 
 def get_all_employees(db: Session) -> list[Employee]:
     return employee_repo.get_all(db)
+
+
+def update_employee(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee:
+    return employee_repo.update(db, employee_id, payload)

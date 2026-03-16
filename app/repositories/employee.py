@@ -18,3 +18,12 @@ def get_by_id(db: Session, employee_id: int) -> Employee | None:
 
 def get_all(db: Session) -> list[Employee]:
     return db.query(Employee).all()
+
+
+def update(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee:
+    employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    for key, value in payload.model_dump().items():
+        setattr(employee, key, value)
+    db.commit()
+    db.refresh(employee)
+    return employee

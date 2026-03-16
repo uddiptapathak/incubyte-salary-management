@@ -25,3 +25,8 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
     return employee
+
+
+@router.put("/{employee_id}", response_model=EmployeeResponse)
+def update_employee(employee_id: int, payload: EmployeeCreate, db: Session = Depends(get_db)):
+    return employee_service.update_employee(db, employee_id, payload)
