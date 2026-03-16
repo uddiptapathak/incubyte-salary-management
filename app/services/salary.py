@@ -8,6 +8,8 @@ def calculate_salary(employee: Employee) -> SalaryBreakdown:
         deductions = gross * 0.10
     elif employee.country == "United States":
         deductions = gross * 0.12
+    else:
+        deductions = 0.0
     return SalaryBreakdown(
         gross_salary=gross,
         deductions=deductions,
