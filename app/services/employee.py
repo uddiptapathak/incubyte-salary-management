@@ -17,8 +17,8 @@ def get_all_employees(db: Session) -> list[Employee]:
     return employee_repo.get_all(db)
 
 
-def delete_employee(db: Session, employee_id: int) -> None:
-    employee_repo.delete(db, employee_id)
+def delete_employee(db: Session, employee_id: int) -> bool:
+    return employee_repo.delete(db, employee_id)
 
 
 def update_employee(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee:

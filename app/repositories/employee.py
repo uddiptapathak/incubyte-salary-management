@@ -20,10 +20,13 @@ def get_all(db: Session) -> list[Employee]:
     return db.query(Employee).all()
 
 
-def delete(db: Session, employee_id: int) -> None:
+def delete(db: Session, employee_id: int) -> bool:
     employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    if not employee:
+        return False
     db.delete(employee)
     db.commit()
+    return True
 
 
 def update(db: Session, employee_id: int, payload: EmployeeCreate) -> Employee | None:

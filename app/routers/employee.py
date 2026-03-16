@@ -29,7 +29,8 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
 
 @router.delete("/{employee_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_employee(employee_id: int, db: Session = Depends(get_db)):
-    employee_service.delete_employee(db, employee_id)
+    if not employee_service.delete_employee(db, employee_id):
+        raise HTTPException(status_code=404, detail="Employee not found")
 
 
 @router.put("/{employee_id}", response_model=EmployeeResponse)
