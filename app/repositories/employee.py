@@ -14,3 +14,7 @@ def create(db: Session, payload: EmployeeCreate) -> Employee:
 
 def get_by_id(db: Session, employee_id: int) -> Employee | None:
     return db.query(Employee).filter(Employee.id == employee_id).first()
+
+
+def get_all(db: Session) -> list[Employee]:
+    return db.query(Employee).all()

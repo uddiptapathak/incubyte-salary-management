@@ -3,9 +3,15 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.schemas.employee import EmployeeCreate, EmployeeResponse
+from typing import List
 from app.services import employee as employee_service
 
 router = APIRouter(prefix="/employees", tags=["employees"])
+
+
+@router.get("", response_model=List[EmployeeResponse])
+def get_all_employees(db: Session = Depends(get_db)):
+    return employee_service.get_all_employees(db)
 
 
 @router.post("", response_model=EmployeeResponse, status_code=status.HTTP_201_CREATED)
