@@ -12,3 +12,9 @@ class EmployeeResponse(EmployeeCreate):
     id: int
 
     model_config = {"from_attributes": True}
+
+
+class SalaryBreakdown(BaseModel):
+    gross_salary: float
+    deductions: float
+    net_salary: float
