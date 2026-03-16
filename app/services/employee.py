@@ -7,3 +7,7 @@ from app.schemas.employee import EmployeeCreate
 
 def create_employee(db: Session, payload: EmployeeCreate) -> Employee:
     return employee_repo.create(db, payload)
+
+
+def get_employee(db: Session, employee_id: int) -> Employee | None:
+    return employee_repo.get_by_id(db, employee_id)
