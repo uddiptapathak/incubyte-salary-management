@@ -52,3 +52,19 @@ async def test_get_employee_by_id_returns_200(client):
     assert data["job_title"] == payload["job_title"]
     assert data["country"] == payload["country"]
     assert data["salary"] == payload["salary"]
+
+
+@pytest.mark.asyncio
+async def test_get_all_employees_returns_list(client):
+    for name in ["Alice", "Bob"]:
+        await client.post("/employees", json={
+            "full_name": name,
+            "job_title": "Engineer",
+            "country": "India",
+            "salary": 40000.0,
+        })
+
+    response = await client.get("/employees")
+
+    assert response.status_code == 200
+    assert len(response.json()) == 2
