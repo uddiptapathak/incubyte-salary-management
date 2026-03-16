@@ -18,4 +18,7 @@ def get_country_metrics(country: str, db: Session = Depends(get_db)):
 
 @router.get("/job-title/{job_title}", response_model=JobTitleSalaryMetrics)
 def get_job_title_metrics(job_title: str, db: Session = Depends(get_db)):
-    return metrics_service.get_job_title_metrics(db, job_title)
+    metrics = metrics_service.get_job_title_metrics(db, job_title)
+    if not metrics:
+        raise HTTPException(status_code=404, detail="No employees found for this job title")
+    return metrics
