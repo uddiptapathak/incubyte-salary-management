@@ -18,3 +18,10 @@ async def test_salary_metrics_by_country(client):
     assert data["min_salary"] == 40000.0
     assert data["max_salary"] == 60000.0
     assert data["average_salary"] == 50000.0
+
+
+@pytest.mark.asyncio
+async def test_salary_metrics_by_country_no_employees_returns_404(client):
+    response = await client.get("/salary-metrics/country/Atlantis")
+
+    assert response.status_code == 404
