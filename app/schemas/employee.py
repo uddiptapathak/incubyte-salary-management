@@ -29,3 +29,7 @@ class CountrySalaryMetrics(BaseModel):
 class JobTitleSalaryMetrics(BaseModel):
     job_title: str
     average_salary: float
+
+
+class ErrorResponse(BaseModel):
+    detail: str

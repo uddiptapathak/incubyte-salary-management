@@ -34,7 +34,7 @@ def get_avg_salary_by_job_title(db: Session, job_title: str) -> float | None:
     return db.query(func.avg(Employee.salary)).filter(Employee.job_title == job_title).scalar()
 
 
-def get_salary_stats_by_country(db: Session, country: str) -> dict:
+def get_salary_stats_by_country(db: Session, country: str) -> dict[str, float | None]:
     result = db.query(
         func.min(Employee.salary),
         func.max(Employee.salary),

@@ -8,6 +8,7 @@ TDS_RATES: dict[str, float] = {
 
 
 def calculate_salary(employee: Employee) -> SalaryBreakdown:
+    """Calculate net salary after country-specific TDS deductions."""
     gross = employee.salary
     deductions = gross * TDS_RATES.get(employee.country, 0.0)
     return SalaryBreakdown(

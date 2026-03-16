@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.employee import EmployeeCreate, EmployeeResponse, SalaryBreakdown
+from app.schemas.employee import EmployeeCreate, EmployeeResponse, ErrorResponse, SalaryBreakdown
 from app.services import employee as employee_service
 from app.services import salary as salary_service
 
@@ -19,7 +19,7 @@ def create_employee(payload: EmployeeCreate, db: Session = Depends(get_db)):
     return employee_service.create_employee(db, payload)
 
 
-@router.get("/{employee_id}/salary", response_model=SalaryBreakdown)
+@router.get("/{employee_id}/salary", response_model=SalaryBreakdown, responses={404: {"model": ErrorResponse}})
 def get_salary(employee_id: int, db: Session = Depends(get_db)):
     employee = employee_service.get_employee(db, employee_id)
     if not employee:
@@ -27,7 +27,7 @@ def get_salary(employee_id: int, db: Session = Depends(get_db)):
     return salary_service.calculate_salary(employee)
 
 
-@router.get("/{employee_id}", response_model=EmployeeResponse)
+@router.get("/{employee_id}", response_model=EmployeeResponse, responses={404: {"model": ErrorResponse}})
 def get_employee(employee_id: int, db: Session = Depends(get_db)):
     employee = employee_service.get_employee(db, employee_id)
     if not employee:
@@ -35,13 +35,13 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
     return employee
 
 
-@router.delete("/{employee_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{employee_id}", status_code=status.HTTP_204_NO_CONTENT, responses={404: {"model": ErrorResponse}})
 def delete_employee(employee_id: int, db: Session = Depends(get_db)):
     if not employee_service.delete_employee(db, employee_id):
         raise HTTPException(status_code=404, detail="Employee not found")
 
 
-@router.put("/{employee_id}", response_model=EmployeeResponse)
+@router.put("/{employee_id}", response_model=EmployeeResponse, responses={404: {"model": ErrorResponse}})
 def update_employee(employee_id: int, payload: EmployeeCreate, db: Session = Depends(get_db)):
     employee = employee_service.update_employee(db, employee_id, payload)
     if not employee:
