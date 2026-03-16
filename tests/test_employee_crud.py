@@ -133,3 +133,16 @@ async def test_delete_nonexistent_employee_returns_404(client):
     response = await client.delete("/employees/9999")
 
     assert response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_create_employee_with_negative_salary_returns_422(client):
+    payload = {
+        "full_name": "John Doe",
+        "job_title": "Software Engineer",
+        "country": "India",
+        "salary": -50000.0,
+    }
+    response = await client.post("/employees", json=payload)
+
+    assert response.status_code == 422
