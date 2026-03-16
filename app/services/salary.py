@@ -1,15 +1,15 @@
 from app.models.employee import Employee
 from app.schemas.employee import SalaryBreakdown
 
+TDS_RATES: dict[str, float] = {
+    "India": 0.10,
+    "United States": 0.12,
+}
+
 
 def calculate_salary(employee: Employee) -> SalaryBreakdown:
     gross = employee.salary
-    if employee.country == "India":
-        deductions = gross * 0.10
-    elif employee.country == "United States":
-        deductions = gross * 0.12
-    else:
-        deductions = 0.0
+    deductions = gross * TDS_RATES.get(employee.country, 0.0)
     return SalaryBreakdown(
         gross_salary=gross,
         deductions=deductions,
