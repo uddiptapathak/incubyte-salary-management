@@ -49,3 +49,10 @@ async def test_average_salary_by_job_title(client):
     data = response.json()
     assert data["job_title"] == "Software Engineer"
     assert data["average_salary"] == 60000.0
+
+
+@pytest.mark.asyncio
+async def test_average_salary_by_job_title_no_employees_returns_404(client):
+    response = await client.get("/salary-metrics/job-title/Astronaut")
+
+    assert response.status_code == 404
