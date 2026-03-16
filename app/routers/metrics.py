@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.employee import CountrySalaryMetrics
+from app.schemas.employee import CountrySalaryMetrics, JobTitleSalaryMetrics
 from app.services import metrics as metrics_service
 
 router = APIRouter(prefix="/salary-metrics", tags=["metrics"])
@@ -14,3 +14,8 @@ def get_country_metrics(country: str, db: Session = Depends(get_db)):
     if not metrics:
         raise HTTPException(status_code=404, detail="No employees found for this country")
     return metrics
+
+
+@router.get("/job-title/{job_title}", response_model=JobTitleSalaryMetrics)
+def get_job_title_metrics(job_title: str, db: Session = Depends(get_db)):
+    return metrics_service.get_job_title_metrics(db, job_title)

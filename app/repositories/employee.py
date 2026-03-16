@@ -29,6 +29,12 @@ def delete(db: Session, employee_id: int) -> bool:
     return True
 
 
+def get_avg_salary_by_job_title(db: Session, job_title: str) -> float | None:
+    from sqlalchemy import func
+    result = db.query(func.avg(Employee.salary)).filter(Employee.job_title == job_title).scalar()
+    return result
+
+
 def get_salary_stats_by_country(db: Session, country: str) -> dict:
     from sqlalchemy import func
     result = db.query(

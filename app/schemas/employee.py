@@ -24,3 +24,8 @@ class CountrySalaryMetrics(BaseModel):
     min_salary: float
     max_salary: float
     average_salary: float
+
+
+class JobTitleSalaryMetrics(BaseModel):
+    job_title: str
+    average_salary: float

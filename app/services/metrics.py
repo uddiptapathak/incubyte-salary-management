@@ -1,7 +1,12 @@
 from sqlalchemy.orm import Session
 
 from app.repositories import employee as employee_repo
-from app.schemas.employee import CountrySalaryMetrics
+from app.schemas.employee import CountrySalaryMetrics, JobTitleSalaryMetrics
+
+
+def get_job_title_metrics(db: Session, job_title: str) -> JobTitleSalaryMetrics:
+    avg = employee_repo.get_avg_salary_by_job_title(db, job_title)
+    return JobTitleSalaryMetrics(job_title=job_title, average_salary=avg)
 
 
 def get_country_metrics(db: Session, country: str) -> CountrySalaryMetrics | None:
